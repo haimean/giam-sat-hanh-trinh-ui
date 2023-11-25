@@ -16,6 +16,18 @@ function App() {
     });
   }, []);
 
+  const getDate = (date) => {
+    const value = date.toString();
+    return (
+      value.slice(0, 2) + "/" + value.slice(2, 4) + "/20" + value.slice(4, 6)
+    );
+  };
+  const getTime = (date) => {
+    const value = date.toString();
+    return (
+      value.slice(0, 2) + ":" + value.slice(2, 4) + ":" + value.slice(4, 6)
+    );
+  };
   return (
     <div className="App">
       <header>
@@ -38,11 +50,11 @@ function App() {
           </tr>
           {datas.map((data) => (
             <tr>
-              <td>{data.date}</td>
-              <td>{data.Time}</td>
+              <td>{getDate(data.date)}</td>
+              <td>{getTime(data.Time)}</td>
               <td>{data.Latitude}</td>
               <td>{data.Longitude}</td>
-              <td>{data.Speed}</td>
+              <td>{data.Speed}km/h</td>
             </tr>
           ))}
         </table>
