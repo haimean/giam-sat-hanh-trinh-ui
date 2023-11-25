@@ -21,31 +21,32 @@ function App() {
       <header>
         <h2>Giám sát hành trình</h2>
       </header>
-
-      <table
+      <div
         style={{
           display: "block",
           height: "229px",
           overflowY: "scroll",
         }}
       >
-        <tr>
-          <th>Ngày</th>
-          <th>Thời gian</th>
-          <th>Kinh Độ</th>
-          <th>Vĩ Độ</th>
-          <th>Vận tốc</th>
-        </tr>
-        {datas.map((data) => (
+        <table>
           <tr>
-            <td>{data.date}</td>
-            <td>{data.Time}</td>
-            <td>{data.Latitude}</td>
-            <td>{data.Longitude}</td>
-            <td>{data.Speed}</td>
+            <th>Ngày</th>
+            <th>Thời gian</th>
+            <th>Kinh Độ</th>
+            <th>Vĩ Độ</th>
+            <th>Vận tốc</th>
           </tr>
-        ))}
-      </table>
+          {datas.map((data) => (
+            <tr>
+              <td>{data.date}</td>
+              <td>{data.Time}</td>
+              <td>{data.Latitude}</td>
+              <td>{data.Longitude}</td>
+              <td>{data.Speed}</td>
+            </tr>
+          ))}
+        </table>
+      </div>
       <MapContainer data={datas[0]} style={{ height: "50%", width: "50%" }} />
     </div>
   );
