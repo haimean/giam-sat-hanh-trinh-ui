@@ -7,27 +7,15 @@ import { realtimeDB } from "./firebase.js";
 function App() {
   const [datas, setDatas] = useState([]);
   useEffect(() => {
-    const query = ref(realtimeDB, "Location");
+    const query = ref(realtimeDB);
     return onValue(query, (snapshot) => {
       const value = snapshot.val();
       if (value) {
-        setDatas((prevDatas) => [value, ...prevDatas]);
+        setDatas(Object.values(value).reverse());
       }
     });
   }, []);
 
-  const getDate = (date) => {
-    const value = date.toString();
-    return (
-      value.slice(0, 2) + "/" + value.slice(2, 4) + "/20" + value.slice(4, 6)
-    );
-  };
-  const getTime = (date) => {
-    const value = date.toString();
-    return (
-      value.slice(0, 2) + ":" + value.slice(2, 4) + ":" + value.slice(4, 6)
-    );
-  };
   return (
     <div className="App">
       <header>
@@ -49,9 +37,9 @@ function App() {
             <th>Vận tốc</th>
           </tr>
           {datas.map((data) => (
-            <tr>
-              <td>{getDate(data.date)}</td>
-              <td>{getTime(data.Time)}</td>
+            <tr key={data.Time}>
+              <td>{data.date}</td>
+              <td>{data.Time}</td>
               <td>{data.Latitude}</td>
               <td>{data.Longitude}</td>
               <td>{data.Speed}km/h</td>
@@ -59,7 +47,7 @@ function App() {
           ))}
         </table>
       </div>
-      <MapContainer data={datas[0]} style={{ height: "50%", width: "50%" }} />
+      <MapContainer style={{ height: "50%", width: "50%" }} />
     </div>
   );
 }

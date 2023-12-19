@@ -8,11 +8,12 @@ const key = "AIzaSyAwJR7kylDCymhx59VKffi40Ez1qaU6aSo";
 function MapContainer(props) {
   const [data, setData] = useState(null);
   useEffect(() => {
-    const query = ref(realtimeDB, "Location");
+    const query = ref(realtimeDB);
     return onValue(query, (snapshot) => {
       const value = snapshot.val();
       if (value) {
-        setData(value);
+        const arrayValue = Object.values(value).reverse();
+        setData(arrayValue[0]);
       }
     });
   }, []);
@@ -24,7 +25,7 @@ function MapContainer(props) {
   return (
     <Map
       google={props.google}
-      zoom={20}
+      zoom={18}
       center={{
         lat: data?.Latitude ?? 21.008685,
         lng: data?.Longitude ?? 105.820781,
