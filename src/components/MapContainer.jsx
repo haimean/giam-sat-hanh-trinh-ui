@@ -1,22 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
-import { onValue, ref } from "firebase/database";
-import { realtimeDB } from "../firebase.js";
 
 const key = "AIzaSyAwJR7kylDCymhx59VKffi40Ez1qaU6aSo";
 function MapContainer(props) {
-  const [data, setData] = useState(null);
+  const { dataMarker, google } = props;
+  const [data, setData] = useState([]);
   useEffect(() => {
-    const query = ref(realtimeDB);
-    return onValue(query, (snapshot) => {
-      const value = snapshot.val();
-      if (value) {
-        const arrayValue = Object.values(value).reverse();
-        setData(arrayValue[0]);
-      }
-    });
-  }, []);
+    setData(dataMarker);
+  }, [dataMarker]);
   const mapStyles = {
     width: "100%",
     height: "50%",
@@ -24,20 +16,23 @@ function MapContainer(props) {
 
   return (
     <Map
-      google={props.google}
+      google={google}
       zoom={18}
       center={{
-        lat: data?.Latitude ?? 21.008685,
-        lng: data?.Longitude ?? 105.820781,
+        lat: data[0]?.Latitude ?? 21.008685,
+        lng: data[0]?.Longitude ?? 105.820781,
       }}
       style={mapStyles}
     >
-      <Marker
-        position={{
-          lat: data?.Latitude ?? 21.008685,
-          lng: data?.Longitude ?? 105.820781,
-        }}
-      />
+      {data.map((item, index) => (
+        <Marker
+          key={index}
+          position={{
+            lat: item?.Latitude ?? 21.008685,
+            lng: item?.Longitude ?? 105.820781,
+          }}
+        />
+      ))}
     </Map>
   );
 }
