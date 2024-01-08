@@ -16,9 +16,12 @@ function App() {
     return onValue(query, (snapshot) => {
       const value = snapshot.val();
       if (value) {
-        setDatas(Object.values(value).reverse());
+        const data = Object.values(value).reverse();
+        console.log("data", data);
+        setDatas(data);
         if (check) {
-          setDataMarker([datas[0]]);
+          setDataMarker([data[0]]);
+          setIdSelect(datas[0].id);
         }
       }
     });
@@ -29,14 +32,14 @@ function App() {
     if (id !== idSelect) {
       setCheck(false);
       setIdSelect(id);
-      setDataMarker([datas[id]]);
+      const markers = datas.filter((item) => item.id === id);
+      setDataMarker(markers);
     } else {
       setCheck(true);
       setIdSelect("");
       setDataMarker([datas[0]]);
+      setIdSelect(datas[0].id);
     }
-
-    //setmarker
   };
   const onClickRowDate = (data) => {
     setIdSelect("");
@@ -49,15 +52,17 @@ function App() {
       setCheck(true);
       setDateSelect("");
       setDataMarker([datas[0]]);
+      setIdSelect(datas[0].id);
     }
 
     //setmarker
   };
 
   const onClickCheck = () => {
+    setIdSelect(datas[0].id);
+    console.log("datas[0].id", datas[0].id);
     setDataMarker([datas[0]]);
     setDateSelect("");
-    setIdSelect("");
     setCheck((pre) => !pre);
   };
   return (
@@ -90,13 +95,13 @@ function App() {
             <th>Vĩ Độ</th>
             <th>Vận tốc</th>
           </tr>
-          {datas.map((data, index) => (
+          {datas.map((data) => (
             <tr
-              key={data.Time}
+              key={data.id}
               style={{
                 backgroundColor:
-                  idSelect === index || dateSelect === data.date
-                    ? "azure"
+                  idSelect === data.id || dateSelect === data.date
+                    ? "#5dbcf6"
                     : "white",
               }}
             >
@@ -109,28 +114,28 @@ function App() {
               </td>
               <td
                 onClick={() => {
-                  onClickRow(index);
+                  onClickRow(data.id);
                 }}
               >
                 {data.Time}
               </td>
               <td
                 onClick={() => {
-                  onClickRow(index);
+                  onClickRow(data.id);
                 }}
               >
                 {data.Latitude}
               </td>
               <td
                 onClick={() => {
-                  onClickRow(index);
+                  onClickRow(data.id);
                 }}
               >
                 {data.Longitude}
               </td>
               <td
                 onClick={() => {
-                  onClickRow(index);
+                  onClickRow(data.id);
                 }}
               >
                 {data.Speed}km/h

@@ -31,7 +31,9 @@ function MapContainer(props) {
             lat: item?.Latitude ?? 21.008685,
             lng: item?.Longitude ?? 105.820781,
           }}
-        />
+        >
+          {item.date + " " + item.Time}
+        </Marker>
       ))}
     </Map>
   );
